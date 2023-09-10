@@ -144,7 +144,7 @@ const handleLogin = () => {
 }
 // 获取用户详情
 const handleUserDetail = () => {
-  userDetail.value = JSON.parse(window.localStorage.getItem('userInfo'))
+  userDetail.value = JSON.parse(window.localStorage.getItem('userInfo') || '')
   nickname.value = userDetail.value.nickname
   trend.value = userDetail.value.pictureCount
   follow.value = userDetail.value.followingCount

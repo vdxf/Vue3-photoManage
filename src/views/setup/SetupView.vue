@@ -4,6 +4,7 @@
     <van-cell title="用户协议" is-link to="agreement" class="first" />
     <van-cell title="隐私政策" is-link to="privacy" />
     <van-cell title="帮助" is-link to="help" />
+    <van-cell title="修改密码" is-link to="change" />
     <button @click="handleExit" class="exit" v-if="isToken">退出登录</button>
   </div>
 </template>

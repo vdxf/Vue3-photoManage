@@ -10,13 +10,7 @@
           邮箱<input type="text" placeholder="请输入邮箱" v-model.trim="email" required />
         </div>
         <div class="form-item">
-          密码<input
-            :type="type"
-            id="pwd"
-            placeholder="请输入密码"
-            v-model.trim="password"
-            required
-          />
+          密码<input :type="type" placeholder="请输入密码" v-model.trim="password" required />
           <i
             class="eye-icon"
             :class="[type === 'password' ? 'closed-eye' : 'open-eye']"
@@ -25,7 +19,7 @@
         </div>
         <div class="form-item">
           邮箱验证码<input
-            type="text"
+            type="number"
             placeholder="请输入邮箱验证码"
             v-model.trim="captcha"
             required
@@ -56,7 +50,7 @@ const nickname = ref('')
 const type = ref('password')
 const email = ref('2532499815@qq.com')
 const password = ref('')
-const captcha = ref('')
+const captcha = ref<number>()
 let sendCode = ref(false)
 const time = ref(60 * 1000)
 //邮箱验证

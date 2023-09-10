@@ -20,7 +20,7 @@
           <div class="detail-content">
             <span>{{ item.follower.nickname }}</span>
           </div>
-          <button v-if="!item.follower.isFollow" @click="handleFollow(item.follower.id)">
+          <button v-if="!item.follower.isFollow" @click.stop="handleFollow(item.follower.id)">
             + 关注
           </button>
         </div>

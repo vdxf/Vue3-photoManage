@@ -110,7 +110,7 @@ const updata = () => {
     avatarId: fileId.value
   })
     .then(() => {
-      const id = window.localStorage.getItem('userId')
+      const id = window.localStorage.getItem('userId') || ''
       doUserDetails(id)
         .then((result) => {
           window.localStorage.setItem('userInfo', JSON.stringify(result))
@@ -126,7 +126,7 @@ const updata = () => {
 }
 //获取用户信息
 const getInfo = () => {
-  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo'))
+  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '')
   if (userInfo.value.avatar) {
     avatarUrl.value = 'https://img.daysnap.cn/' + userInfo.value.avatar.filepath
   }

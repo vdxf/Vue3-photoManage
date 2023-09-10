@@ -31,22 +31,22 @@
         <textarea class="picture-detail" style="resize: none" rows="6" v-model="description">
         </textarea>
       </div>
-      <button type="submit" class="c-button" @click="handleUploadImage" v-if="description">
-        发布
-      </button>
+      <LoginBtn btntext="发布" @click="handleUploadImage" v-if="description" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import VsImage from '@/components/commont/VsImage.vue'
+import LoginBtn from '@/components/commont/LoginBtn.vue'
 import { doFile, doGain, doUpdata } from '@/api'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
-const title = ref<any>('')
-const description = ref<any>('')
-const type = ref<any>('')
-const fileId = ref<any>('')
+const title = ref()
+const description = ref()
+const type = ref()
+const fileId = ref()
 const files = ref('')
 const imgUrl = ref('')
 
@@ -56,7 +56,7 @@ const columns = [
   { text: '公开的', value: 'public' },
   { text: '私密的', value: 'private' }
 ]
-const onConfirm = ({ selectedOptions }) => {
+const onConfirm = ({ selectedOptions }: any) => {
   showPicker.value = false
   fieldValue.value = selectedOptions[0].text
   type.value = selectedOptions[0].value
@@ -65,6 +65,7 @@ const onConfirm = ({ selectedOptions }) => {
 const handleColse = () => {
   router.go(-1)
 }
+//上传图片
 const handleFiles = (event: any) => {
   files.value = event.target.files
   let formData = new FormData()
@@ -79,6 +80,7 @@ const handleFiles = (event: any) => {
       alert(error.data.msg)
     })
 }
+//创建 / 更新
 const handleUploadImage = () => {
   if (route.query.id) {
     doUpdata({
@@ -136,8 +138,7 @@ onBeforeMount(() => {
   background-size: auto;
 }
 .upload-image {
-  margin-top: j(30);
-  padding: j(10);
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -148,11 +149,17 @@ onBeforeMount(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: j(200);
   img {
-    width: 100%;
+    height: 100%;
   }
 }
 .image-null {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   p {
     font-size: j(14);
@@ -251,5 +258,9 @@ onBeforeMount(() => {
   outline: none;
   color: #000;
   font-size: j(14);
+}
+.button-box {
+  width: 80%;
+  height: j(40);
 }
 </style>

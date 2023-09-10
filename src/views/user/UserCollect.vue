@@ -38,7 +38,9 @@
 import VsImage from '@/components/commont/VsImage.vue'
 import { doCollectList } from '@/api'
 import { ref } from 'vue'
-
+import { useRoute } from 'vue-router'
+import { onBeforeMount } from 'vue'
+const route = useRoute()
 const keyword = ref('')
 const keyword1 = ref('')
 const collectList = ref()
@@ -48,12 +50,20 @@ const finished = ref(false)
 const error = ref(false)
 const refreshing = ref(false)
 const view = ref()
-
+const id = ref()
+onBeforeMount(() => {
+  if (route.query.id) {
+    id.value = route.query.id
+  } else {
+    id.value = window.localStorage.getItem('userId') || ''
+  }
+})
 const reqDataList = (current: number) => {
   doCollectList({
     current: current,
     length: 10,
-    keyword: keyword1.value
+    keyword: keyword1.value,
+    userId: id.value
   })
     .then((result) => {
       const { list, count } = result

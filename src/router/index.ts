@@ -41,6 +41,12 @@ const router = createRouter({
       meta: { title: '忘记密码' }
     },
     {
+      path: '/change',
+      name: 'ChangePassword',
+      component: () => import('@/views/auth/ChangePassword.vue'),
+      meta: { title: '修改密码' }
+    },
+    {
       path: '/login',
       name: 'LoginView',
       component: () => import('../views/auth/LoginView.vue'),
@@ -175,9 +181,9 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
-router.afterEach((to, from) => {
+router.afterEach((to) => {
   const { title } = to.meta || {}
-  document.title = title || '立减金'
+  document.title = `${title}` || '立减金'
 })
 
 export default router

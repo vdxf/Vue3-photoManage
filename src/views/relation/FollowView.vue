@@ -36,7 +36,7 @@
             </div>
             <div
               class="trand-button"
-              @click="handleCancelFollow(item.following.id, item.following.isFollow)"
+              @click.stop="handleCancelFollow(item.following.id, item.following.isFollow)"
             >
               <button v-if="item.following.isFollow">取消关注</button>
               <button v-else>+ 关注</button>
@@ -108,7 +108,7 @@ const handleCancelFollow = (id: string, isFollow: boolean) => {
   }
 }
 //跳转关注者详情
-const handleFollowDetail = (id) => {
+const handleFollowDetail = (id: string) => {
   router.push({
     path: '/usercenter',
     query: {

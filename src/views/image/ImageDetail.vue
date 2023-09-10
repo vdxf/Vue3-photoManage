@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import VsImage from '@/components/commont/VsImage.vue'
-import { ref, onBeforeMount, toRaw } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import {
   doCancelTrand,
   doDetail,

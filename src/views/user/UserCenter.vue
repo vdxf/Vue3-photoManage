@@ -128,7 +128,7 @@ const handleload = () => {
   }
 }
 const userDetail = () => {
-  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo'))
+  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '')
   nickname.value = userInfo.value.nickname
   signature.value = userInfo.value.signature || '个性签名'
   follow.value = userInfo.value.followingCount

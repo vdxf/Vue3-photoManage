@@ -29,10 +29,10 @@ ajax.interceptors.response.use(
   },
   (error) => {
     console.log('请求响应错误 => ', error.response, error)
-    if (error.message) {
-      showFailToast('网络繁忙')
-    } else {
+    if (error.response) {
       showFailToast(error.response.data.msg || (error.response.status && error.response.statusText))
+    } else {
+      showFailToast('网络繁忙')
     }
     return Promise.reject(error)
   }

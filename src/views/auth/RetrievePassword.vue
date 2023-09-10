@@ -7,7 +7,7 @@
 
     <div class="form-item">
       邮箱验证码：<input
-        type="text"
+        type="number"
         placeholder="请输入邮箱验证码"
         v-model.trim="captcha"
         required
@@ -36,7 +36,7 @@ import { doEmailSend, doResetPassword } from '@/api'
 
 const email = ref('2532499815@qq.com')
 const resetPassword = ref()
-const captcha = ref('')
+const captcha = ref()
 let sendCode = ref(false)
 const time = ref(60 * 1000)
 //返回
