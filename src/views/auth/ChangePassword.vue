@@ -7,6 +7,7 @@
     <label class="reset-password"
       >新密码：<input type="text" v-model="password" placeholder="请输入新的密码"
     /></label>
+    <div class="forgot-password" @click.stop="handleRetrievePassword">忘记密码？</div>
     <button
       @click.stop="handleSubmit"
       class="retrieve-next"
@@ -47,6 +48,10 @@ const handleSubmit = () => {
     }
   }
 }
+// 忘记密码
+const handleRetrievePassword = () => {
+  router.push('/retrieve')
+}
 </script>
 
 <style scoped lang="scss">
@@ -54,51 +59,18 @@ const handleSubmit = () => {
 .changepassword-view {
   height: 100vh;
   background-color: #ddd;
+  position: relative;
 }
-.bind-email {
-  margin: j(10) 0;
-  height: j(40);
-  background-color: #fff;
-  padding-left: j(10);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: j(16);
-  span {
-    margin-right: j(20);
-  }
-}
-.retrieve-next {
-  height: j(40);
-  margin: j(10);
-  width: 94%;
-  background-color: #ffb2d0;
-  border: none;
-  color: #fff;
-  font-size: j(16);
-}
-.retrieve-next-active {
-  background-color: #ff80af;
-}
-.form-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: #fff;
-  padding: 0 j(10);
-  height: j(50);
-  font-size: j(16);
-  input {
-    flex: 1;
-  }
-  button {
-    height: j(40);
-    border-radius: j(10);
-    font-size: j(14);
-    background-color: #ccc;
-    color: #fafafa;
-    border: none;
-  }
+
+.forgot-password {
+  position: absolute;
+  top: j(18);
+  right: j(20);
+  width: j(60);
+  height: j(20);
+  font-size: j(12);
+  color: #ff80af;
+  z-index: 3;
 }
 .reset-password {
   display: flex;
@@ -112,5 +84,19 @@ const handleSubmit = () => {
   input {
     flex: 1;
   }
+}
+.retrieve-next {
+  width: 80%;
+  height: j(40);
+  border-radius: j(20);
+  margin: j(40) 10% j(20);
+  background-color: #ffb2d0;
+  border: none;
+  color: #fff;
+  font-size: j(16);
+}
+
+.retrieve-next-active {
+  background-color: #ff80af;
 }
 </style>

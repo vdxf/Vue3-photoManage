@@ -2,42 +2,43 @@
   <div class="section-content">
     <van-nav-bar title="上传图片" left-arrow @click-left="handleColse" />
     <div class="upload-image">
-      <label class="image-content">
-        <vs-image :src="imgUrl" alt="img" v-if="imgUrl" />
-        <div class="image-null" v-else>
-          <p>请选择要上传的图片</p>
-          <img src="@/assets/images/imageUpload.jpg" alt="img" />
-        </div>
-        <input type="file" @change="handleFiles" style="opacity: 0" />
-      </label>
-      <div class="title-content" v-if="imgUrl">
+      <div class="title-content">
         <p>图片标题</p>
         <input type="text" placeholder="请输入图片的标题" v-model="title" />
       </div>
-      <div class="type-content" v-if="title">
+      <div class="type-content">
         <van-field
           v-model="fieldValue"
           is-link
           readonly
-          label="选择图片类型"
+          label="图片类型"
           @click="showPicker = true"
         />
         <van-popup v-model:show="showPicker" round position="bottom">
           <van-picker :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
         </van-popup>
       </div>
-      <div class="image-descraption" v-if="fieldValue">
-        <p>请填写对图片的描述：</p>
+      <div class="image-descraption">
+        <p>图片详细信息：</p>
         <textarea class="picture-detail" style="resize: none" rows="6" v-model="description">
         </textarea>
       </div>
-      <LoginBtn btntext="发布" @click="handleUploadImage" v-if="description" />
+      <label class="image-content">
+        <span v-if="!imgUrl">选择图片 +</span>
+        <div class="image-box">
+          <vs-image :src="imgUrl" alt="img" v-if="imgUrl" />
+        </div>
+        <input type="file" @change="handleFiles" style="opacity: 0" />
+      </label>
+      <div class="button-group">
+        <button @click="handleDelate">取消</button>
+        <button @click="handleUploadImage">发布</button>
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import VsImage from '@/components/commont/VsImage.vue'
-import LoginBtn from '@/components/commont/LoginBtn.vue'
 import { doFile, doGain, doUpdata } from '@/api'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -73,8 +74,11 @@ const handleFiles = (event: any) => {
 
   doFile(formData)
     .then((result) => {
-      fileId.value = result.id
-      imgUrl.value = 'https://img.daysnap.cn/' + result.filepath
+      handleDelate()
+      setTimeout(() => {
+        fileId.value = result.id
+        imgUrl.value = result.filepath
+      })
     })
     .catch((error) => {
       alert(error.data.msg)
@@ -113,7 +117,9 @@ const handleUploadImage = () => {
       })
   }
 }
-
+const handleDelate = () => {
+  imgUrl.value = ''
+}
 const route = useRoute()
 onBeforeMount(() => {
   if (route.query.id) {
@@ -138,40 +144,21 @@ onBeforeMount(() => {
   background-size: auto;
 }
 .upload-image {
-  flex: 1;
+  background-color: #f1f1f1;
+  margin: j(30) j(20);
+  padding: j(20) j(20) j(40);
+  border-radius: j(20);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-}
-.image-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: j(200);
-  img {
-    height: 100%;
-  }
-}
-.image-null {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  p {
-    font-size: j(14);
-    margin-bottom: j(20);
-  }
 }
 .title-content {
-  margin: j(20);
-  padding: j(10);
-  width: 100%;
+  height: j(40);
+  border: 1px solid #ccc;
+  border-radius: j(10);
+  background-color: #fff;
+  padding: 0 j(10);
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   p {
@@ -186,23 +173,59 @@ onBeforeMount(() => {
     border-radius: j(12);
   }
 }
-
-.choose-image {
-  margin-top: j(50);
-  padding: j(10);
+.image-descraption {
+  margin-top: j(10);
+  width: 80%;
+  position: relative;
   display: flex;
   flex-direction: row;
-  align-items: center;
   p {
-    color: #fff;
+    position: absolute;
+    left: 0;
+    top: j(-10);
     font-size: j(14);
-    white-space: nowrap;
   }
-  img {
-    margin-left: j(30);
-    display: block;
+  textarea {
+    width: 100%;
+  }
+}
+.picture-detail {
+  margin: j(20) 0;
+  border-radius: j(8);
+  outline: none;
+  color: #000;
+  font-size: j(14);
+}
+.image-content {
+  margin-top: j(10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: j(200);
+  position: relative;
+  span {
+    position: absolute;
+    left: j(60);
+    top: j(60);
+    width: j(80);
+    height: j(20);
+    line-height: j(20);
+    font-size: j(16);
+    border-radius: j(8);
+    background-color: rgb(205, 198, 234);
+    padding: j(10);
+  }
+  .image-box {
     width: 100%;
     height: 100%;
+    border: 1px solid #ccc;
+    border-radius: j(10);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      height: 90%;
+    }
   }
 }
 
@@ -226,12 +249,23 @@ onBeforeMount(() => {
   }
 }
 
-.image-button-group {
+.button-group {
+  margin-top: j(10);
   display: flex;
-  flex-direction: column;
-  margin: j(10);
-  p {
-    font-size: j(14);
+  justify-content: space-around;
+  width: 100%;
+  button {
+    width: j(80);
+    padding: j(10);
+    font-size: j(16);
+    border-radius: j(10);
+    &:first-child {
+      background-color: #ccc;
+    }
+    &:last-child {
+      background-color: #ff6cb3;
+      color: #fff;
+    }
   }
 }
 .image-type {
@@ -243,24 +277,5 @@ onBeforeMount(() => {
   label {
     padding-bottom: j(10);
   }
-}
-.image-descraption {
-  display: flex;
-  flex-direction: column;
-  margin: j(10);
-  p {
-    font-size: j(14);
-  }
-}
-.picture-detail {
-  margin: j(20) 0;
-  border-radius: j(8);
-  outline: none;
-  color: #000;
-  font-size: j(14);
-}
-.button-box {
-  width: 80%;
-  height: j(40);
 }
 </style>
