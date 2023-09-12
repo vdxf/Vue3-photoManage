@@ -1,16 +1,19 @@
 <template>
   <div class="search-view">
-    <van-search
-      v-model="keyword"
-      show-action
-      placeholder="搜索"
-      @search="handleSearch"
-      shape="round"
-    >
-      <template #action>
-        <div @click="handleSearch">搜索</div>
-      </template>
-    </van-search>
+    <div class="search-header">
+      <i class="iconfont left" @click="router.go(-1)">&#xe60c;</i>
+      <van-search
+        v-model="keyword"
+        show-action
+        placeholder="搜索"
+        @search="handleSearch"
+        shape="round"
+      >
+        <template #action>
+          <div @click="handleSearch" class="search-button">搜索</div>
+        </template>
+      </van-search>
+    </div>
 
     <van-pull-refresh class="content" v-model="refreshing" @refresh="handleRefresh" v-if="isShow">
       <van-list
@@ -22,7 +25,7 @@
         @load="handleLoad"
       >
         <van-cell v-for="item in list" :key="item.id">
-          <div class="image-detail">
+          <div class="image-detail" @click="handleImageDetail(item.id)">
             <vs-image :src="item.file.filepath" alt="img" />
             <div class="detail-content">
               <span>标题：{{ item.title }}</span>
@@ -42,8 +45,9 @@
 import VsImage from '@/components/commont/VsImage.vue'
 import { onBeforeMount, ref, toRaw, watch } from 'vue'
 import { doTabulation } from '@/api/index'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const route = useRoute()
+const router = useRouter()
 const keyword = ref('')
 const keyword1 = ref('')
 const imageList = ref<any>([])
@@ -60,6 +64,15 @@ onBeforeMount(() => {
     id.value = route.query.id
   }
 })
+//跳转图片详情
+const handleImageDetail = (id: any) => {
+  router.push({
+    path: '/imagedetail',
+    query: {
+      id
+    }
+  })
+}
 const reqDataList = (current: number) => {
   doTabulation({
     current: current,
@@ -110,9 +123,34 @@ watch(keyword, (nv) => {
   flex-direction: column;
   height: 100vh;
 }
+.search-header {
+  display: flex;
+  align-items: center;
+  i {
+    margin-left: j(10);
+    font-size: j(20);
+  }
+}
+.van-search {
+  flex: 1;
+  background-color: transparent;
+}
+.search-button {
+  margin-left: j(10);
+  color: #ff009d;
+}
 .content {
   flex: 1;
   overflow-y: auto;
+  margin: j(5);
+}
+.van-list {
+  background-color: transparent;
+}
+.van-cell {
+  margin-bottom: j(10);
+  border-radius: j(10);
+  padding: j(10);
 }
 .image-detail {
   display: flex;

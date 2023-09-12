@@ -1,7 +1,7 @@
 <template>
   <div class="main-view">
     <RouterView class="main-content" />
-    <van-tabbar v-model="active" route>
+    <van-tabbar v-model="active" route active-color="#ff009d">
       <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
       <router-link class="image-add" to="/imagecreate">+</router-link>
       <van-tabbar-item replace to="/main" icon="friends-o">我的</van-tabbar-item>
