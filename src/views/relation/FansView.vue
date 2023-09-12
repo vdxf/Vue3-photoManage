@@ -71,8 +71,7 @@ const handleFansList = (current: number) => {
       finished.value = imageList.value.length >= count
       current1 = current
     })
-    .catch((error) => {
-      console.log(error)
+    .catch(() => {
       error.value = true
     })
     .finally(() => {

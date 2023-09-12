@@ -107,7 +107,7 @@ onBeforeMount(() => {
 })
 //获取用户头像
 const handleUserDetail = () => {
-  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '')
+  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '{}')
   if (userInfo.value.avatar) {
     avatarUrl.value = 'https://img.daysnap.cn/' + userInfo.value.avatar.filepath
   }
@@ -204,7 +204,7 @@ const handleSearch = () => {
   align-items: flex-start;
   padding: j(10);
   li {
-    flex: 1;
+    width: 50%;
     margin-right: j(10);
     &:last-child {
       margin-right: 0;

@@ -27,10 +27,7 @@ ajax.interceptors.response.use(
     if (!respData) {
       return Promise.reject('网络繁忙,请稍后再试')
     }
-    const { data, msg, code } = respData
-    if (code !== 0) {
-      return Promise.reject(msg || '网络繁忙,请稍后再试')
-    }
+    const { data } = respData
     return data
   },
   (error) => {
@@ -38,7 +35,7 @@ ajax.interceptors.response.use(
     if (error && error.response) {
       const { status, data: respData } = error.response
       if (status === 401) {
-        showFailToast('网络繁忙,请稍后再试')
+        showFailToast('网络繁忙')
         if (respData) {
           if (respData.code === 4001) {
             showFailToast('token无效, 请重新登陆')

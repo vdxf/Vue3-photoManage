@@ -128,7 +128,7 @@ const handleload = () => {
   }
 }
 const userDetail = () => {
-  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '')
+  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '{}')
   nickname.value = userInfo.value.nickname
   signature.value = userInfo.value.signature || '个性签名'
   follow.value = userInfo.value.followingCount
@@ -151,9 +151,7 @@ const handleUserDetail = () => {
         avatarUrl.value = 'https://img.daysnap.cn/' + authorInfo.value.avatar.filepath
       }
     })
-    .catch((error) => {
-      console.log(error)
-    })
+    .catch(() => {})
 }
 //返回
 const handleBack = () => {
@@ -190,9 +188,7 @@ const handleTrand = () => {
       .then(() => {
         handleUserDetail()
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch(() => {})
   } else {
     doCancelTrand({
       followUserId: authorId.value
@@ -200,9 +196,7 @@ const handleTrand = () => {
       .then(() => {
         handleUserDetail()
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch(() => {})
   }
 }
 </script>

@@ -7,7 +7,7 @@
           昵称<input type="text" placeholder="请输入昵称" v-model.trim="nickname" required />
         </div>
         <div class="form-item">
-          邮箱<input type="text" placeholder="请输入邮箱" v-model.trim="email" required />
+          邮箱<input type="email" placeholder="请输入邮箱" v-model.trim="email" required />
         </div>
         <div class="form-item">
           密码<input :type="type" placeholder="请输入密码" v-model.trim="password" required />
@@ -19,7 +19,7 @@
         </div>
         <div class="form-item">
           邮箱验证码<input
-            type="number"
+            type="text"
             placeholder="请输入邮箱验证码"
             v-model.trim="captcha"
             required
@@ -44,13 +44,14 @@ import LoginBtn from '@/components/commont/LoginBtn.vue'
 import { ref } from 'vue'
 import { doEmailSend, doRegister } from '@/api/index'
 import { useRouter } from 'vue-router'
+import { showFailToast } from 'vant'
 
 const router = useRouter()
 const nickname = ref('')
 const type = ref('password')
 const email = ref('2532499815@qq.com')
-const password = ref('')
-const captcha = ref<number>()
+const password = ref()
+const captcha = ref()
 let sendCode = ref(false)
 const time = ref(60 * 1000)
 //邮箱验证
@@ -65,11 +66,9 @@ const handleCode = () => {
       .then((result) => {
         console.log(result)
       })
-      .catch((error) => {
-        alert(error.data.msg)
-      })
+      .catch(() => {})
   } else {
-    alert('邮箱格式错误')
+    showFailToast('邮箱格式错误')
   }
 }
 //注册
@@ -82,15 +81,12 @@ const handleRegister = () => {
         password: password.value,
         captcha: captcha.value
       })
-        .then((result) => {
+        .then(() => {
           router.push('login')
-          console.log(result)
         })
-        .catch((error) => {
-          alert(error.data.msg)
-        })
+        .catch(() => {})
     } else {
-      alert('邮箱格式错误')
+      showFailToast('邮箱格式错误')
     }
   }
 }

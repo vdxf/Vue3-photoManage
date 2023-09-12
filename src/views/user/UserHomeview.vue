@@ -60,8 +60,7 @@ const reqDataList = (current: number) => {
       finished.value = imageList.value.length >= count
       current1 = current
     })
-    .catch((error) => {
-      console.log(error)
+    .catch(() => {
       error.value = true
     })
     .finally(() => {
@@ -98,13 +97,9 @@ const handleDeleteImage = (id: any) => {
         .then(() => {
           reqDataList(1)
         })
-        .catch((error) => {
-          console.log(error)
-        })
+        .catch(() => {})
     })
-    .catch(() => {
-      // on cancel
-    })
+    .catch(() => {})
 }
 </script>
 <style scoped lang="scss">

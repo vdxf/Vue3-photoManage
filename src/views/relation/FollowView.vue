@@ -84,8 +84,7 @@ const handleFollowList = (current: number) => {
       current1 = current
       console.log(userList.value)
     })
-    .catch((error) => {
-      console.log(error)
+    .catch(() => {
       error.value = true
     })
     .finally(() => {

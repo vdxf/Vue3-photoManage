@@ -56,11 +56,8 @@ const refreshing = ref(false)
 const isShow = ref(false)
 const id = ref()
 onBeforeMount(() => {
-  console.log(route.query.id)
   if (route.query.id) {
     id.value = route.query.id
-  } else {
-    id.value = window.localStorage.getItem('userId') || ''
   }
 })
 const reqDataList = (current: number) => {

@@ -5,7 +5,7 @@
     <div class="login-input">
       <div class="account-input">
         <span>账号</span>
-        <input type="text" placeholder="请输入邮箱" v-model="email" />
+        <input type="email" placeholder="请输入邮箱" v-model="email" />
       </div>
       <div class="password-input">
         <span>密码</span>
@@ -37,10 +37,11 @@
 <script setup lang="ts">
 import { doGetUserInformation, doLogin } from '@/api/index'
 import router from '@/router'
+import { showFailToast } from 'vant'
 import { ref } from 'vue'
 
 const email = ref('2532499815@qq.com')
-const password = ref('123456789')
+const password = ref('111111')
 //邮箱验证
 const isEmail = (val: string) => {
   return /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(val)
@@ -66,11 +67,9 @@ const handleLogin = () => {
           window.localStorage.setItem('token', result.token)
           handleUserDetail()
         })
-        .catch((error) => {
-          alert(error.data.msg)
-        })
+        .catch(() => {})
     } else {
-      alert('邮箱格式错误')
+      showFailToast('邮箱格式错误')
     }
   }
 } // 获取用户详情

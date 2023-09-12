@@ -96,9 +96,7 @@ const handleFiles = (event: any) => {
       avatarUrl.value = 'https://img.daysnap.cn/' + result.filepath
       updata()
     })
-    .catch((error) => {
-      alert(error.data.msg)
-    })
+    .catch(() => {})
 }
 
 //更新用户信息
@@ -114,28 +112,26 @@ const updata = () => {
       doUserDetails(id)
         .then((result) => {
           window.localStorage.setItem('userInfo', JSON.stringify(result))
+          window.location.reload()
           getInfo()
         })
-        .catch((error) => {
-          console.log(error)
-        })
+        .catch(() => {})
     })
-    .catch((error) => {
-      console.log(error)
-    })
+    .catch(() => {})
 }
 //获取用户信息
 const getInfo = () => {
-  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '')
+  userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '{}')
   if (userInfo.value.avatar) {
     avatarUrl.value = 'https://img.daysnap.cn/' + userInfo.value.avatar.filepath
+    fileId.value = userInfo.value.avatar.id
   }
   nickname.value = userInfo.value.nickname
   signature.value = userInfo.value.signature || '个性签名'
   newsignature.value = userInfo.value.signature
   newsex.value = userInfo.value.sex
   choose.value = userInfo.value.sex
-  sex.value = userInfo.value.sex === 1 ? '女' : '男'
+  sex.value = userInfo.value.sex === '1' ? '男' : '女'
 }
 onBeforeMount(() => {
   getInfo()

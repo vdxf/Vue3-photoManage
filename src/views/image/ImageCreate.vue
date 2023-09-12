@@ -80,9 +80,7 @@ const handleFiles = (event: any) => {
         imgUrl.value = result.filepath
       })
     })
-    .catch((error) => {
-      alert(error.data.msg)
-    })
+    .catch(() => {})
 }
 //创建 / 更新
 const handleUploadImage = () => {
@@ -98,9 +96,7 @@ const handleUploadImage = () => {
         console.log(result)
         router.replace('/home')
       })
-      .catch((error) => {
-        alert(error.data.msg)
-      })
+      .catch(() => {})
   } else {
     doGain({
       title: title.value,
@@ -112,9 +108,7 @@ const handleUploadImage = () => {
         console.log(result)
         router.replace('/home')
       })
-      .catch((error) => {
-        alert(error.data.msg)
-      })
+      .catch(() => {})
   }
 }
 const handleDelate = () => {

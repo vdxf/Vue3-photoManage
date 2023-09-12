@@ -49,7 +49,6 @@ const loading = ref(false)
 const finished = ref(false)
 const error = ref(false)
 const refreshing = ref(false)
-const view = ref()
 const id = ref()
 onBeforeMount(() => {
   if (route.query.id) {
@@ -71,8 +70,7 @@ const reqDataList = (current: number) => {
       finished.value = collectList.value.length >= count
       current1 = current
     })
-    .catch((error) => {
-      console.log(error)
+    .catch(() => {
       error.value = true
     })
     .finally(() => {
@@ -82,7 +80,6 @@ const reqDataList = (current: number) => {
 }
 const handleRefresh = () => {
   reqDataList(1)
-  view.value.$el.scrollTop = 0
 }
 const handleLoad = () => {
   reqDataList(current1 + 1)

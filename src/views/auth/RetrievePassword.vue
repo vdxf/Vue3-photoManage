@@ -7,7 +7,7 @@
 
     <div class="form-item">
       邮箱验证码：<input
-        type="number"
+        type="text"
         placeholder="请输入邮箱验证码"
         v-model.trim="captcha"
         required
@@ -33,6 +33,7 @@
 import { ref } from 'vue'
 import router from '@/router'
 import { doEmailSend, doResetPassword } from '@/api'
+import { showFailToast } from 'vant'
 
 const email = ref('2532499815@qq.com')
 const resetPassword = ref()
@@ -55,11 +56,9 @@ const handleCode = () => {
       .then((result) => {
         console.log(result)
       })
-      .catch((error) => {
-        alert(error.data.msg)
-      })
+      .catch(() => {})
   } else {
-    alert('邮箱格式错误')
+    showFailToast('邮箱格式错误')
   }
 }
 //重置密码
@@ -74,11 +73,9 @@ const handleReset = () => {
         .then((result) => {
           console.log(result)
         })
-        .catch((error) => {
-          console.dir(error)
-        })
+        .catch(() => {})
     } else {
-      alert('邮箱格式错误')
+      showFailToast('邮箱格式错误')
     }
   }
 }
