@@ -41,10 +41,10 @@ const refreshing = ref(false)
 const authorId = ref()
 const id = ref()
 onBeforeMount(() => {
-  authorId.value = route.query.id
-  id.value = window.localStorage.getItem('userId')
-  if (authorId.value === id.value) {
-    authorId.value = id.value
+  if (route.query.id) {
+    id.value = route.query.id
+  } else {
+    id.value = window.localStorage.getItem('userId') || ''
   }
   reqDataList(1)
 })
@@ -52,7 +52,7 @@ const reqDataList = (current: number) => {
   doTabulation({
     current: current,
     length: 10,
-    userId: authorId.value
+    userId: id.value
   })
     .then((result) => {
       const { list, count } = result

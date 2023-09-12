@@ -59,7 +59,12 @@
             title="主页"
             name="/usercenter/userhomeview"
             replace
-            to="/usercenter/userhomeview"
+            :to="{
+              path: '/usercenter/userhomeview',
+              query: {
+                id: authorId
+              }
+            }"
           ></van-tab>
           <van-tab
             title="动态"
@@ -68,7 +73,7 @@
             :to="{
               path: '/usercenter/usertrand',
               query: {
-                id: id
+                id: authorId
               }
             }"
           ></van-tab>
@@ -76,7 +81,12 @@
             title="收藏"
             name="/usercenter/usercollect"
             replace
-            to="/usercenter/usercollect"
+            :to="{
+              path: '/usercenter/usercollect',
+              query: {
+                id: authorId
+              }
+            }"
           ></van-tab>
         </van-tabs>
         <router-view></router-view>
