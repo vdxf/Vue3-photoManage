@@ -21,7 +21,7 @@ const props = defineProps({
   }
 })
 const handleError = (e: any) => {
-  e.target.src = '@/assets/images/null.png'
+  e.target.src = '@/assets/images/imageUpload.jpg'
 }
 const url = ref()
 onBeforeMount(() => {

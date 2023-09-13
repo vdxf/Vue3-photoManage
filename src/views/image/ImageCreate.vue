@@ -32,7 +32,8 @@
       </label>
       <div class="button-group">
         <button @click="handleDelate">取消</button>
-        <button @click="handleUploadImage">发布</button>
+        <button @click="handleUploadImage" v-if="!route.query.id">发布</button>
+        <button @click="handleUploadImage" v-else>更新</button>
       </div>
     </div>
   </div>
@@ -181,6 +182,8 @@ onBeforeMount(() => {
   }
   textarea {
     width: 100%;
+    background-color: transparent;
+    border: 1px solid #ccc;
   }
 }
 .picture-detail {
@@ -206,7 +209,8 @@ onBeforeMount(() => {
     line-height: j(20);
     font-size: j(16);
     border-radius: j(8);
-    background-color: rgb(205, 198, 234);
+    background-color: #ff6cb3;
+    color: #fff;
     padding: j(10);
   }
   .image-box {
@@ -254,6 +258,7 @@ onBeforeMount(() => {
     font-size: j(16);
     border-radius: j(10);
     &:first-child {
+      color: #000;
       background-color: #ccc;
     }
     &:last-child {
@@ -271,5 +276,8 @@ onBeforeMount(() => {
   label {
     padding-bottom: j(10);
   }
+}
+.van-field {
+  border: 1px solid #ccc;
 }
 </style>

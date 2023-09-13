@@ -54,7 +54,13 @@
         </div>
       </div>
       <van-sticky :offset-top="80">
-        <van-tabs v-model:active="activeName" class="title-group" routes>
+        <van-tabs
+          v-model:active="activeName"
+          class="title-group"
+          routes
+          color="#ff009d"
+          title-active-color="#ff009d"
+        >
           <van-tab
             title="主页"
             name="/usercenter/userhomeview"
