@@ -1,35 +1,37 @@
 <template>
   <div class="section-content">
-    <van-nav-bar title="上传图片" left-arrow @click-left="handleColse" />
-    <div class="upload-image">
-      <div class="title-content">
-        <p>图片标题</p>
-        <input type="text" placeholder="请输入图片的标题" v-model="title" />
+    <van-nav-bar title="上传图片" left-arrow @click-left="router.go(-1)" />
+    <div class="upload-content">
+      <div class="title-content item">
+        <van-cell title="图片标题">
+          <van-field v-model.trim="title" placeholder="请输入图片的标题" />
+        </van-cell>
       </div>
-      <div class="type-content">
-        <van-field
-          v-model="fieldValue"
-          is-link
-          readonly
-          label="图片类型"
-          @click="showPicker = true"
-        />
-        <van-popup v-model:show="showPicker" round position="bottom">
-          <van-picker :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
-        </van-popup>
+      <div class="type-content item">
+        <van-cell title="图片类型">
+          <van-field v-model="fieldValue" is-link readonly @click="showPicker = true" />
+          <van-popup v-model:show="showPicker" round position="bottom">
+            <van-picker :columns="columns" @cancel="showPicker = false" @confirm="onConfirm" />
+          </van-popup>
+        </van-cell>
       </div>
-      <div class="image-descraption">
-        <p>图片详细信息：</p>
-        <textarea class="picture-detail" style="resize: none" rows="6" v-model="description">
-        </textarea>
+      <div class="image-descraption item">
+        <van-cell title="图片详细信息">
+          <van-field is-link readonly />
+          <!-- <textarea class="picture-detail" style="resize: none" rows="6" v-model="description"> -->
+          <!-- </textarea> -->
+        </van-cell>
       </div>
-      <label class="image-content">
-        <span v-if="!imgUrl">选择图片 +</span>
-        <div class="image-box">
-          <vs-image :src="imgUrl" alt="img" v-if="imgUrl" />
-        </div>
-        <input type="file" @change="handleFiles" style="opacity: 0" />
-      </label>
+      <div class="image-content item">
+        <van-cell title="上传文件" />
+        <label class="image-box">
+          <span v-if="!imgUrl">选择图片 +</span>
+          <div class="image-choose">
+            <vs-image :src="imgUrl" alt="img" v-if="imgUrl" />
+          </div>
+          <input type="file" @change="handleFiles" style="opacity: 0" />
+        </label>
+      </div>
       <div class="button-group">
         <button @click="handleDelate">取消</button>
         <button @click="handleUploadImage" v-if="!route.query.id">发布</button>
@@ -134,76 +136,51 @@ onBeforeMount(() => {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  position: relative;
-  background: url(@/assets/images/imagecreate.jpg);
-  background-size: auto;
 }
-.upload-image {
-  background-color: #f1f1f1;
-  margin: j(30) j(20);
-  padding: j(20) j(20) j(40);
-  border-radius: j(20);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.title-content {
-  height: j(40);
-  border: 1px solid #ccc;
-  border-radius: j(10);
+.upload-content {
+  margin-top: j(20);
   background-color: #fff;
-  padding: 0 j(10);
+  flex: 1;
+  .item {
+    border-top: 1px solid #ddd;
+  }
+}
+.van-cell {
   display: flex;
   justify-content: center;
   align-items: center;
-  p {
-    font-size: j(14);
-    margin-right: j(20);
+  input {
+    flex: 1;
   }
 }
 .type-content {
-  white-space: nowrap;
-  margin: j(20);
-  .van-cell--clickable {
-    border-radius: j(12);
-  }
+  display: flex;
+  align-items: center;
 }
 .image-descraption {
-  margin-top: j(10);
-  width: 80%;
-  position: relative;
   display: flex;
-  flex-direction: row;
-  p {
-    position: absolute;
-    left: 0;
-    top: j(-10);
-    font-size: j(14);
-  }
+  align-items: center;
   textarea {
-    width: 100%;
-    background-color: transparent;
     border: 1px solid #ccc;
   }
 }
-.picture-detail {
-  margin: j(20) 0;
-  border-radius: j(8);
-  outline: none;
-  color: #000;
-  font-size: j(14);
-}
 .image-content {
-  margin-top: j(10);
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: j(200);
+  height: j(300);
+}
+.image-box {
+  width: 90%;
+  height: 100%;
+  border: 1px solid #ccc;
+  border-radius: j(10);
   position: relative;
   span {
     position: absolute;
-    left: j(60);
-    top: j(60);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: j(80);
     height: j(20);
     line-height: j(20);
@@ -213,42 +190,20 @@ onBeforeMount(() => {
     color: #fff;
     padding: j(10);
   }
-  .image-box {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #ccc;
-    border-radius: j(10);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    img {
-      height: 90%;
-    }
-  }
 }
-
-.image-title {
-  margin: j(10);
+.image-choose {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  margin-top: j(20);
-  p {
-    font-size: j(14);
-    color: #fff;
-    padding-bottom: j(20);
-  }
-  input {
-    padding: j(10);
-    flex: 1;
-    outline: none;
-    background-color: #fff;
-    color: #000000;
-    border-radius: j(6);
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 90%;
   }
 }
 
 .button-group {
-  margin-top: j(10);
+  margin-top: j(20);
   display: flex;
   justify-content: space-around;
   width: 100%;
@@ -276,8 +231,5 @@ onBeforeMount(() => {
   label {
     padding-bottom: j(10);
   }
-}
-.van-field {
-  border: 1px solid #ccc;
 }
 </style>

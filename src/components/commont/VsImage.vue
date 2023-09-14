@@ -5,7 +5,9 @@
 <script lang="ts" setup>
 import { onBeforeMount } from 'vue'
 import { ref } from 'vue'
+import imgUrl from '@/assets/images/imageUpload.jpg'
 const IMAGE_BASE_URL = ref('https://img.daysnap.cn/')
+
 const props = defineProps({
   alt: {
     default: ''
@@ -21,7 +23,7 @@ const props = defineProps({
   }
 })
 const handleError = (e: any) => {
-  e.target.src = '@/assets/images/imageUpload.jpg'
+  e.target.src = imgUrl
 }
 const url = ref()
 onBeforeMount(() => {
