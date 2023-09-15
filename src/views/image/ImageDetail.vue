@@ -5,7 +5,7 @@
       class="edit-header"
       :border="false"
       :clickable="true"
-      @click-left="handleBack"
+      @click-left="router.go(-1)"
       @click-right="handleSearch"
     >
       <template #right>
@@ -83,80 +83,55 @@ const trandShow = ref()
 onBeforeMount(() => {
   handleDetail()
 })
-//返回
-const handleBack = () => {
-  router.go(-1)
-}
 //搜索
 const handleSearch = () => {
   router.push('search')
 }
 //获取图片详情
-const handleDetail = () => {
+const handleDetail = async () => {
   pictureId.value = route.query.id
-  doDetail(pictureId.value)
-    .then((result) => {
-      detailList.value = result
-      description.value = detailList.value.description // 描述
-      isLike.value = detailList.value.isLike // 是否点赞
-      likeCount.value = detailList.value.likeCount // 点赞数
-      isCollect.value = detailList.value.isCollect // 是否收藏
-      collectCount.value = detailList.value.collectCount // 收藏数
-      avatarUrl.value = 'https://img.daysnap.cn/' + detailList.value.file.filepath // 图片
-      authoravatar.value = 'https://img.daysnap.cn/' + detailList.value.user.avatar.filepath // 作者头像
-      authorNickname.value = detailList.value.user.nickname // 作者用户名
-      authorId.value = detailList.value.user.id // 作者Id
-      handleUserDetail()
-    })
-    .catch((error) => {
-      console.log(error)
-    })
+  const result = await doDetail(pictureId.value)
+  detailList.value = result
+  description.value = detailList.value.description // 描述
+  isLike.value = detailList.value.isLike // 是否点赞
+  likeCount.value = detailList.value.likeCount // 点赞数
+  isCollect.value = detailList.value.isCollect // 是否收藏
+  collectCount.value = detailList.value.collectCount // 收藏数
+  avatarUrl.value = 'https://img.daysnap.cn/' + detailList.value.file.filepath // 图片
+  authoravatar.value = 'https://img.daysnap.cn/' + detailList.value.user.avatar.filepath // 作者头像
+  authorNickname.value = detailList.value.user.nickname // 作者用户名
+  authorId.value = detailList.value.user.id // 作者Id
+  handleUserDetail()
 }
 //获取作者详情
-const handleUserDetail = () => {
+const handleUserDetail = async () => {
   const id = window.localStorage.getItem('userId')
   if (authorId.value !== id) {
-    doUserDetails(authorId.value)
-      .then((result) => {
-        authorInfo.value = result
-        trandShow.value = true
-        isFollow.value = authorInfo.value.isFollow // 是否关注
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    const result = await doUserDetails(authorId.value)
+    authorInfo.value = result
+    trandShow.value = true
+    isFollow.value = authorInfo.value.isFollow // 是否关注
   } else {
     trandShow.value = false
   }
 }
 //关注
-const handleTrand = () => {
+const handleTrand = async () => {
   if (!isFollow.value) {
-    doTrand({
+    await doTrand({
       followUserId: authorId.value
     })
-      .then(() => {
-        handleUserDetail()
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   } else {
-    doCancelTrand({
+    await doCancelTrand({
       followUserId: authorId.value
     })
-      .then(() => {
-        handleUserDetail()
-      })
-      .catch((error) => {
-        console.log(error)
-      })
   }
+  handleUserDetail()
 }
 //点赞
-const handleLike = () => {
+const handleLike = async () => {
   if (!isLike.value) {
-    doLike({
+    await doLike({
       pictureId: pictureId.value
     })
       .then(() => {

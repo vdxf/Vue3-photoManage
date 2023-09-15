@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -92,6 +91,12 @@ const router = createRouter({
       meta: { title: '创建相片' }
     },
     {
+      path: '/detail',
+      name: 'DetailView',
+      component: () => import('../views/image/DetailView.vue'),
+      meta: { title: '编辑详情' }
+    },
+    {
       path: '/imagedetail',
       name: 'ImageDetail',
       component: () => import('../views/image/ImageDetail.vue'),
@@ -148,6 +153,20 @@ const router = createRouter({
       meta: { title: '404' }
     }
   ]
+})
+
+import pinia from '@/store'
+import { useKeepAiveStore } from '@/store/KeepAlive'
+const KeepAlive = useKeepAiveStore(pinia)
+router.beforeEach((to, from) => {
+  if (to.name === 'HomeView' && from.name === 'ImageCreate') {
+    KeepAlive.clear()
+  } else if (to.name === 'ImageCreate' && from.name === 'HomeView') {
+    KeepAlive.remove(from.name)
+    KeepAlive.add(to.name)
+  } else {
+    KeepAlive.add(to.name)
+  }
 })
 
 router.beforeEach((to, from, next) => {

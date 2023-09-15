@@ -132,13 +132,22 @@ const handleDeleteImage = (id: any) => {
 }
 
 .detail-content {
-  margin-top: j(10);
+  padding: j(10);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   button {
-    width: 48%;
-    height: j(30);
+    width: 40%;
+    font-size: j(14);
+    border-radius: j(4);
+    &:first-child {
+      color: #000;
+      background-color: #ccc;
+    }
+    &:last-child {
+      background-color: #ff6cb3;
+      color: #fff;
+    }
   }
 }
 </style>

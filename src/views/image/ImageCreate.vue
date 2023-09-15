@@ -1,6 +1,6 @@
 <template>
   <div class="section-content">
-    <van-nav-bar title="上传图片" left-arrow @click-left="router.go(-1)" />
+    <van-nav-bar title="上传图片" left-arrow @click-left="router.replace('/home')" />
     <div class="upload-content">
       <div class="title-content item">
         <van-cell title="图片标题">
@@ -17,9 +17,7 @@
       </div>
       <div class="image-descraption item">
         <van-cell title="图片详细信息">
-          <van-field is-link readonly />
-          <!-- <textarea class="picture-detail" style="resize: none" rows="6" v-model="description"> -->
-          <!-- </textarea> -->
+          <van-field is-link readonly :placeholder="description" @click="router.push('/detail')" />
         </van-cell>
       </div>
       <div class="image-content item">
@@ -40,11 +38,17 @@
     </div>
   </div>
 </template>
+<script lang="ts">
+export default {
+  name: 'ImageCreate'
+}
+</script>
 <script setup lang="ts">
 import VsImage from '@/components/commont/VsImage.vue'
 import { doFile, doGain, doUpdata } from '@/api'
 import { ref, onBeforeMount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { onActivated } from 'vue'
 
 const router = useRouter()
 const title = ref()
@@ -65,54 +69,38 @@ const onConfirm = ({ selectedOptions }: any) => {
   fieldValue.value = selectedOptions[0].text
   type.value = selectedOptions[0].value
 }
-
-const handleColse = () => {
-  router.go(-1)
-}
 //上传图片
-const handleFiles = (event: any) => {
+const handleFiles = async (event: any) => {
   files.value = event.target.files
   let formData = new FormData()
   formData.append('file', files.value[0])
 
-  doFile(formData)
-    .then((result) => {
-      handleDelate()
-      setTimeout(() => {
-        fileId.value = result.id
-        imgUrl.value = result.filepath
-      })
-    })
-    .catch(() => {})
+  const res = await doFile(formData)
+  await handleDelate()
+  setTimeout(() => {
+    fileId.value = res.id
+    imgUrl.value = res.filepath
+  })
 }
 //创建 / 更新
-const handleUploadImage = () => {
+const handleUploadImage = async () => {
   if (route.query.id) {
-    doUpdata({
+    await doUpdata({
       title: title.value,
       description: description.value,
       fileId: fileId.value,
       type: type.value,
       id: route.query.id
     })
-      .then((result) => {
-        console.log(result)
-        router.replace('/home')
-      })
-      .catch(() => {})
   } else {
-    doGain({
+    await doGain({
       title: title.value,
       description: description.value,
       fileId: fileId.value,
       type: type.value
     })
-      .then((result) => {
-        console.log(result)
-        router.replace('/home')
-      })
-      .catch(() => {})
   }
+  router.replace('/home')
 }
 const handleDelate = () => {
   imgUrl.value = ''
@@ -126,6 +114,11 @@ onBeforeMount(() => {
     type.value = datas.type
     fileId.value = datas.fileId
     imgUrl.value = 'https://img.daysnap.cn/' + datas.imgUrl
+  }
+})
+onActivated(() => {
+  if (route.query.description) {
+    description.value = route.query.description
   }
 })
 </script>

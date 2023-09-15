@@ -1,6 +1,10 @@
 <template>
   <div class="main-view">
-    <RouterView class="main-content" />
+    <RouterView v-slot="{ Component }">
+      <KeepAlive>
+        <component :is="Component" />
+      </KeepAlive>
+    </RouterView>
     <van-tabbar v-model="active" route active-color="#ff009d">
       <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
       <router-link class="image-add" to="/imagecreate">+</router-link>
@@ -8,10 +12,13 @@
     </van-tabbar>
   </div>
 </template>
-
+<script lang="ts">
+export default {
+  name: 'MainView'
+}
+</script>
 <script setup lang="ts">
 import { ref } from 'vue'
-
 const active = ref(0)
 </script>
 

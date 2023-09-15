@@ -10,7 +10,7 @@
         <van-search
           v-model="keyword"
           placeholder="请输入搜索关键词"
-          @focus="handleSearch"
+          @focus="router.push('/search')"
           shape="round"
         >
         </van-search>
@@ -76,12 +76,16 @@
     </van-pull-refresh>
   </div>
 </template>
-
+<script lang="ts">
+export default {
+  name: 'HomeView'
+}
+</script>
 <script setup lang="ts">
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, onActivated } from 'vue'
 import { doTabulation } from '@/api/index'
 import VsImage from '@/components/commont/VsImage.vue'
-import { useRouter } from 'vue-router'
+import { onBeforeRouteLeave, useRouter } from 'vue-router'
 
 const router = useRouter()
 const keyword = ref('')
@@ -97,15 +101,16 @@ const refreshing = ref(false)
 const view = ref()
 const avatarUrl = ref()
 const userInfo = ref()
-const leftHeight = ref<any>()
-const rightHeight = ref<any>()
+const leftHeight = ref()
+const rightHeight = ref()
+const selfScrollTop = ref()
 onBeforeMount(() => {
   const token = window.localStorage.getItem('token')
   if (token) {
     handleUserDetail()
   }
 })
-//获取用户头像
+// 获取用户头像
 const handleUserDetail = () => {
   userInfo.value = JSON.parse(window.localStorage.getItem('userInfo') || '{}')
   if (userInfo.value.avatar) {
@@ -162,10 +167,14 @@ const handleRefresh = () => {
 const handleLoad = () => {
   reqDataList(current1 + 1)
 }
-//搜索
-const handleSearch = () => {
-  router.push('/search')
-}
+onBeforeRouteLeave(() => {
+  //离开页面时记住原来的滚动条高度
+  selfScrollTop.value = view.value.$el.scrollTop
+  console.log('selfScrollTop => ', selfScrollTop.value)
+})
+onActivated(() => {
+  view.value.$el.scrollTop = selfScrollTop.value
+})
 </script>
 
 <style lang="scss" scoped>

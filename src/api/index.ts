@@ -54,7 +54,7 @@ export const doGain = withLoading(
 export const doUpdata = withLoading(
   (data: { title: string; description: string; fileId: string; type: string; id: any }) => {
     return request({
-      url: `/api/v1/picture`,
+      url: `/api/v1/picture/${data.id}`,
       method: 'PATCH',
       data
     })
