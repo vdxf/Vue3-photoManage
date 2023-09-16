@@ -159,12 +159,16 @@ import pinia from '@/store'
 import { useKeepAiveStore } from '@/store/KeepAlive'
 const KeepAlive = useKeepAiveStore(pinia)
 router.beforeEach((to, from) => {
+  if (to.name === 'ImageCreate' || to.name === 'HomeView') {
+    KeepAlive.add(to.name)
+  }
   if (to.name === 'HomeView' && from.name === 'ImageCreate') {
     KeepAlive.clear()
+    setTimeout(() => {
+      KeepAlive.add('MainView')
+    })
   } else if (to.name === 'ImageCreate' && from.name === 'HomeView') {
     KeepAlive.remove(from.name)
-    KeepAlive.add(to.name)
-  } else {
     KeepAlive.add(to.name)
   }
 })

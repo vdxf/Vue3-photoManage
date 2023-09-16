@@ -21,7 +21,12 @@
       @load="handleLoad"
     >
       <div class="image-list">
-        <van-cell v-for="item in collectList" :key="item.id" class="image-item">
+        <van-cell
+          v-for="item in collectList"
+          :key="item.id"
+          class="image-item"
+          @click="handleImageDetail(item.id)"
+        >
           <div class="image-detail">
             <vs-image :src="item.picture.file.filepath" alt="img" />
             <div class="detail-content">
@@ -38,9 +43,10 @@
 import VsImage from '@/components/commont/VsImage.vue'
 import { doCollectList } from '@/api'
 import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { onBeforeMount } from 'vue'
 const route = useRoute()
+const router = useRouter()
 const keyword = ref('')
 const keyword1 = ref('')
 const collectList = ref()
@@ -87,6 +93,15 @@ const handleLoad = () => {
 const handleSearch = () => {
   keyword1.value = keyword.value
   handleRefresh()
+}
+//跳转图片详情
+const handleImageDetail = (id: any) => {
+  router.push({
+    path: '/imagedetail',
+    query: {
+      id
+    }
+  })
 }
 </script>
 <style scoped lang="scss">

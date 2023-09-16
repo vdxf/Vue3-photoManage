@@ -1,6 +1,6 @@
 <template>
   <div class="section-content">
-    <van-nav-bar title="上传图片" left-arrow @click-left="router.replace('/home')" />
+    <van-nav-bar title="上传图片" left-arrow @click-left="router.go(-1)" />
     <div class="upload-content">
       <div class="title-content item">
         <van-cell title="图片标题">
@@ -17,7 +17,12 @@
       </div>
       <div class="image-descraption item">
         <van-cell title="图片详细信息">
-          <van-field is-link readonly :placeholder="description" @click="router.push('/detail')" />
+          <van-field
+            is-link
+            readonly
+            :placeholder="description"
+            @click="router.replace('/detail')"
+          />
         </van-cell>
       </div>
       <div class="image-content item">

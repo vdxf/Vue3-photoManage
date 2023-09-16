@@ -9,7 +9,12 @@
       @load="handleLoad"
     >
       <div class="image-list">
-        <van-cell v-for="item in list" :key="item.id" class="image-item">
+        <van-cell
+          v-for="item in list"
+          :key="item.id"
+          class="image-item"
+          @click="handleImageDetail(item.id)"
+        >
           <div class="image-detail">
             <vs-image :src="item.file.filepath" alt="img" />
             <div class="detail-content" v-if="!authorId || authorId === id">
@@ -101,6 +106,15 @@ const handleDeleteImage = (id: any) => {
         .catch(() => {})
     })
     .catch(() => {})
+}
+//跳转图片详情
+const handleImageDetail = (id: any) => {
+  router.push({
+    path: '/imagedetail',
+    query: {
+      id
+    }
+  })
 }
 </script>
 <style scoped lang="scss">

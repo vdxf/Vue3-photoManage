@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1280" height="1280" preserveAspectRatio="xMidYMid" viewBox="0 0 1280 1280" style="display:block;animation-play-state:paused" ><g transform="scale(5)" style="transform:matrix(5, 0, 0, 5, 0, 0);animation-play-state:paused" ><defs style="animation-play-state:paused" ><g id="stripe-0.4410987279442691" style="animation-play-state:paused" ><path d="M 128 -128 L 256 -128 L -128 256 L -128 128 Z" fill="#f3f3f3" style="animation-play-state:paused" ></path>
+<path d="M 384 -128 L 384 0 L 0 384 L -128 384 Z" fill="#f3f3f3" style="animation-play-state:paused" ></path>
+<path d="M 256 -128 L 384 -128 L -128 384 L -128 256 Z" fill="#ffffff" style="animation-play-state:paused" ></path>
+<path d="M 384 0 L 384 128 L 128 384 L 0 384 Z" fill="#ffffff" style="animation-play-state:paused" ></path></g></defs>
+
+
+<g transform="matrix(1,0,0,1,0,0)" style="transform:matrix(1, 0, 0, 1, 0, 0);animation-play-state:paused" ><use xlink:href="#stripe-0.4410987279442691" x="-100" y="-100" style="animation-play-state:paused" ></use>
+
+  
+<use xlink:href="#stripe-0.4410987279442691" x="100" y="100" style="animation-play-state:paused" ></use></g></g></svg>

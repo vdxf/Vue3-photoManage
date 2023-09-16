@@ -17,7 +17,13 @@
       </div>
     </div>
     <!-- 图片列表 -->
-    <van-pull-refresh class="content" v-model="refreshing" @refresh="handleRefresh" ref="view">
+    <van-pull-refresh
+      class="content"
+      v-model="refreshing"
+      @refresh="handleRefresh"
+      ref="view"
+      @scroll="Lazyload"
+    >
       <van-list
         v-model:loading="loading"
         :finished="finished"
@@ -41,7 +47,7 @@
                   backgroundColor: item.file.color
                 }"
               >
-                <vs-image :src="item.file.filepath" wr="200" alt="img" />
+                <img class="lazy" :src="imgUrl" :data-src="item.file.filepath" wr="200" alt="img" />
               </div>
               <div class="detail-content">
                 <span>{{ item.description }}</span>
@@ -63,7 +69,7 @@
                   backgroundColor: item.file.color
                 }"
               >
-                <vs-image :src="item.file.filepath" wr="200" alt="img" />
+                <img class="lazy" :src="imgUrl" :data-src="item.file.filepath" wr="200" alt="img" />
               </div>
               <div class="detail-content">
                 <span>{{ item.description }}</span>
@@ -86,6 +92,7 @@ import { onBeforeMount, ref, onActivated } from 'vue'
 import { doTabulation } from '@/api/index'
 import VsImage from '@/components/commont/VsImage.vue'
 import { onBeforeRouteLeave, useRouter } from 'vue-router'
+import imgUrl from '@/assets/images/loading.svg'
 
 const router = useRouter()
 const keyword = ref('')
@@ -104,6 +111,19 @@ const userInfo = ref()
 const leftHeight = ref()
 const rightHeight = ref()
 const selfScrollTop = ref()
+const Lazyload = () => {
+  const imgArr: any = document.querySelectorAll('.lazy')
+  let n = 0
+  let clientHeight = view.value.$el.clientHeight
+  let scrollTop = view.value.$el.scrollTop
+  for (let i = n; i < imgArr.length; i++) {
+    const rect = imgArr[i].getBoundingClientRect().top
+    if (rect < clientHeight + scrollTop) {
+      imgArr[i].src = 'https://img.daysnap.cn/' + imgArr[i].getAttribute('data-src')
+      n = i + 1
+    }
+  }
+}
 onBeforeMount(() => {
   const token = window.localStorage.getItem('token')
   if (token) {
@@ -156,6 +176,7 @@ const reqDataList = (current: number) => {
     .finally(() => {
       loading.value = false
       refreshing.value = false
+      Lazyload()
     })
 }
 //下拉刷新
